@@ -45,9 +45,10 @@ space(1)
 os.system("passwd root")
 confirm("Have you backed up your password securely?")
 
+
 # create dash user
 space(100)
-print("Great, let's set up a new user account called 'dash':")
+print("Great, let's set up a new user called 'dash' and a group called 'docker':")
 space(1)
 print("Here is a strong password for you to paste in as you did before - don't forget to save it securely!:")
 space(1)
@@ -58,6 +59,9 @@ os.system("usermod -aG sudo dash")
 space(1)
 os.system("passwd dash")
 confirm("Have you backed up your new password?")
+space(100)
+os.system("sudo usermod -aG docker $USER")
+os.system("newgrp docker")
 
 # run updates
 time = 10
@@ -119,6 +123,22 @@ my_file.write("[sshd]\nenabled = true\nport = 22\nfilter = sshd\nlogpath = /var/
 os.system("systemctl restart fail2ban")
 os.system("systemctl enable fail2ban")
 sleep(2)
+
+
+# download and enable docker + mn bootstrap
+space(100)
+print("Let's download and install and enable docker, download and extract mn-bootstrap and some required bits")
+space(1)
+sleep(3)
+os.system("curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -")
+os.system("sudo apt install -y nodejs git docker.io docker-compose")
+os.system("sudo systemctl enable docker")
+os.system("sudo systemctl enable containerd")
+os.system("git clone -b master https://github.com/dashevo/mn-bootstrap.git")
+os.system("cd mn-bootstrap")
+os.system("npm install")
+os.system("sudo npm link")
+
 
 # Disable the root login and enable the 'dash' user login
 space(100)
