@@ -56,7 +56,6 @@ space(1)
 os.system("adduser dash")
 os.system("usermod -aG sudo dash")
 space(1)
-os.system("passwd dash")
 confirm("Have you backed up your new password?")
 
 # run updates
